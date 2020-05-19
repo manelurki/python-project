@@ -38,37 +38,50 @@ class Student:
               self.txtscholarship.delete(0, END)
          def addstudent():
               if(len(id.get())!=0):
-                   student_database.addStudent(id.get(),firstname.get(),surname.get(),age.get(),gender.get(),mobile.get(),department.get(),level.get(),agno.get(),scholarship_state.get())
+                   str1=id.get()+""
+                   str2=firstname.get()+""
+                   str3=surname.get()+""
+                   str4 = department.get() + ""
+                   str5 = level.get() + ""
+                   str6= agno.get() + ""
+                   str7 = age.get() + ""
+                   str8 = gender.get() + ""
+                   str9 = mobile.get() + ""
+                   str10 = scholarship_state.get()+ ""
+                   str11=str1,str2,str3,str4,str5,str6,str7,str8,str9,str10
+                   student_database.addStudent(str1,str2,str3,str4,str5,str6,str7,str8,str9,str10)
+                   #student_database.addStudent(id.get(),firstname.get(),surname.get(),age.get(),gender.get(),mobile.get(),department.get(),level.get(),agno.get(),scholarship_state.get())
                    studentlist.delete(0,END)
-                   studentlist.insert(END,id.get(),firstname.get(),surname.get(),age.get(),gender.get(),mobile.get(),department.get(),level.get(),agno.get(),scholarship_state.get())
+                   studentlist.insert(END,str11)
+                   #studentlist.insert(END,id.get(),firstname.get(),surname.get(),age.get(),gender.get(),mobile.get(),department.get(),level.get(),agno.get(),scholarship_state.get())
          def display():
               studentlist.delete(0,END)
               for row in student_database.showall():
                    studentlist.insert(END,row,str(" "))
          def studentregister(event):
               global t
-              searchstudent=studentlist.curselection()[0]
-              t=studentlist.set(searchstudent)
+              searchstudent=studentlist.curselection()
+              print(searchstudent)
+              t=studentlist.get(searchstudent)
               self.txtid.delete(0,END)  # si on ecrit 0 sans end il efface lettre par lettre
-              self.txtid.insert(END,t[1])
+              self.txtid.insert(END,t[0])
               self.txtfname.delete(0,END)
-              self.txtfname.insert(END, t[2])
+              self.txtfname.insert(END, t[1])
               self.txtlname.delete(0, END)
-              self.txtlname.insert(END, t[3])
+              self.txtlname.insert(END, t[2])
               self.txtage.delete(0, END)
-              self.txtage.insert(END, t[4])
+              self.txtage.insert(END, t[3])
               self.txtgender.delete(0, END)
-              self.txtgender.insert(END, t[5])
+              self.txtgender.insert(END, t[4])
               self.txtmobile.delete(0, END)
-              self.txtmobile.insert(END, t[6])
+              self.txtmobile.insert(END, t[5])
               self.txtdepartment.delete(0, END)
-              self.txtdepartment.insert(END, t[7])
+              self.txtdepartment.insert(END, t[6])
               self.txtlevel.delete(0, END)
-              self.txtlevel.insert(END, t[8])
+              self.txtlevel.insert(END, t[7])
               self.txtagno.delete(0, END)
-              self.txtagno.insert(END, t[9])
-              self.txtscholarship.delete(0, END)
-              self.txtscholarship.insert(END, t[10])
+              self.txtagno.insert(END, t[0])
+
 
 
          def delete():
@@ -77,26 +90,28 @@ class Student:
                    clearall()
                    display()
          def searchdatabase():
-              studentlist.delete(0,END)
-              for row in student_database.search(id.get(),firstname.get(),surname.get(),age.get(),gender.get(),mobile.get(),department.get(),level.get(),agno.get(),scholarship_state.get()):
-                   studentlist.insert(END, row, str(""))
+              str1 = id.get() + ""
+              str2 = firstname.get() + ""
+              str3 = surname.get() + ""
+              str4 = department.get() + ""
+              str5 = level.get() + ""
+              str6 = agno.get() + ""
+              str7 = age.get() + ""
+              str8 = gender.get() + ""
+              str9 = mobile.get() + ""
+              str10 = scholarship_state.get() + ""
+              str11 = str1, str2, str3, str4, str5, str6, str7, str8, str9, str10
+              for row in student_database.search(str1,str2,str3,str4,str5,str6,str7,str8,str9,str10):
+                   studentlist.delete(0, END)
+                   studentlist.insert(END, row)
          def update():
               if (len(id.get()) != 0):
-                   student_database.deleteStudent(t[0])
+                   student_database.deleteStudent(id.get())
+                   studentlist.delete(0, END)
               if (len(id.get()) != 0):
                    student_database.addStudent(id.get(),firstname.get(),surname.get(),age.get(),gender.get(),mobile.get(),department.get(),level.get(),agno.get(),scholarship_state.get())
                    studentlist.delete(0,END)
                    studentlist.insert(END,(id.get(),firstname.get(),surname.get(),age.get(),gender.get(),mobile.get(),department.get(),level.get(),agno.get(),scholarship_state.get()))
-
-
-
-
-
-
-
-
-
-
 
         #----------------pour les frames blanc----------------------#
          MainFrame = Frame(self.root, bg="powderblue")
@@ -175,7 +190,7 @@ class Student:
          scrollbar.grid(row=0, column=1, sticky='ns')
          studentlist=Listbox(TitFrame3,width=40,height=13,font=('arial', 10, 'bold'),yscrollcommand=scrollbar.set)
          studentlist.bind('<<ListboxSelect>>',studentregister)
-         studentlist.grid(row=0, column=0, padx=6,pady=6)
+         studentlist.grid(row=0, column=0, padx=8)
          scrollbar.config(command=studentlist.yview)
         #----------------------------------------------------#
          self.btnadd=Button(TitFrame1,text="Add student",font=('arial', 10, 'bold'),height=1,width=10,bd=1,command=addstudent)
@@ -184,13 +199,13 @@ class Student:
          self.btnadd = Button(TitFrame1, text="Update", font=('arial', 10, 'bold'), height=1, width=10, bd=1,command=update)
          self.btnadd.grid(row=0, column=2)
 
-         self.btnadd = Button(TitFrame1, text="Search", font=('arial', 10, 'bold'), height=1, width=10, bd=1)
+         self.btnadd = Button(TitFrame1, text="Search", font=('arial', 10, 'bold'), height=1, width=10, bd=1,command=searchdatabase)
          self.btnadd.grid(row=0, column=3)
 
          self.btnadd = Button(TitFrame1, text="Clear", font=('arial', 10, 'bold'), height=1, width=10, bd=1,command=clearall)
          self.btnadd.grid(row=0, column=4)
 
-         self.btnadd = Button(TitFrame1, text="Display", font=('arial', 10, 'bold'), height=1, width=10, bd=1)
+         self.btnadd = Button(TitFrame1, text="Display", font=('arial', 10, 'bold'), height=1, width=10, bd=1,command=display)
          self.btnadd.grid(row=0, column=5)
 
          self.btnadd = Button(TitFrame1, text="delete", font=('arial', 10, 'bold'), height=1, width=10, bd=1,command=delete)

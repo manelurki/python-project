@@ -23,8 +23,8 @@ def showall():
 def deleteStudent(id):
     con = sqlite3.connect("student.db")
     cur = con.cursor()
-    cur.execute("DELETE * FROM student")
-    row = cur.fetchall()
+    cur.execute("DELETE FROM student WHERE id=?",(id,))
+    con.commit()
     con.close()
     #-----------------------#
 
